@@ -2,15 +2,22 @@
 # description attributes.
 
 class Room:
-    def __init__(self, name, description, items=[]):
-        self.name = name
-        self.description = description
-        self.items = []
+	def __init__(self, name, description, is_light=False, items=[]):
+		self.name = name
+		self.items = items
+		self.is_light = is_light
+		self.n_to = self
+		self.e_to = self
+		self.s_to = self
+		self.w_to = self
 
-        self.n_to = None
-        self.s_to = None
-        self.e_to = None
-        self.w_to = None
+		if is_light==False:
+			self.description = "If only there was an item you could pick up to help you see better..."
+		else: self.description = description
+
+	def move(self, direction):
+		new_room = self.__getattribute__(direction)
         
-        def __str__(self):
-            return self.name, self.description
+		if new_room == self:
+			return("\nDanger Will Robinson! Danger! Don't go that way!\n")
+		return new_room
